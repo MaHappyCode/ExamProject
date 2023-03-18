@@ -18,6 +18,7 @@ const firebaseApp = initializeApp ({
 // Initialize Firebase
 const auth = getAuth(firebaseApp);
 
+
 //Detect auth state
 onAuthStateChanged(auth, user => {
   if (user === null) {

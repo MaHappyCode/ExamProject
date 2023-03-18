@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { View, TextInput, Button, StyleSheet, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../firebase';
+
 
 
 const SignUpScreen = ({ navigation }) => {
@@ -65,7 +68,27 @@ const SignUpScreen = ({ navigation }) => {
       alert("Confirm Password must match Password ");
       return;
     }
-  };
+
+     // Sign up with Firebase
+ 
+ 
+     createUserWithEmailAndPassword(auth, email, password)
+     .then((userCredential) => {
+       // Signed in 
+       const user = userCredential.user;
+       console.log(user);
+     })
+     .catch((error) => {
+       const errorCode = error.code;
+       const errorMessage = error.message;
+       console.log(errorCode, errorMessage);
+     });
+ };
+
+
+
+
+
 
   return (
     <View style={styles.container}>
