@@ -3,6 +3,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { StyleSheet } from "react-native";
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
+import MainScreen from "./screens/MainScreen";
+import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -14,13 +16,13 @@ export default function App() {
           component={SignInScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen name="Sign Up" component={SignUpScreen} />
+        <Stack.Screen name="Reset password" component={ResetPasswordScreen} />
         <Stack.Screen
-          name="Sign Up"
-          component={SignUpScreen}
-          
-        >
-
-        </Stack.Screen>
+          name="MainScreen"
+          component={MainScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -29,8 +31,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
