@@ -4,7 +4,6 @@ import { Feather } from "@expo/vector-icons";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
-import MainScreen from "./MainScreen";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
@@ -38,9 +37,6 @@ const SignInScreen = () => {
   };
 
   // check authentication status before rendering the screen
-  if (isAuthenticated) {
-    return <MainScreen></MainScreen>;
-  }
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

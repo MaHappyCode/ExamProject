@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getDatabase } from "firebase/database";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -14,11 +15,13 @@ const firebaseApp = initializeApp({
   storageBucket: "fir-b1f12.appspot.com",
   messagingSenderId: "1093580358710",
   appId: "1:1093580358710:web:3b9472430f9ad244730497",
+  databaseURL: "https://fir-b1f12-default-rtdb.firebaseio.com/",
 });
 
 // Initialize Firebase
 const auth = getAuth(firebaseApp);
 const firestore = getFirestore(firebaseApp);
+const database = getDatabase(firebaseApp);
 
 //Detect auth state
 onAuthStateChanged(auth, (user) => {
@@ -29,4 +32,4 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-export { auth, firestore };
+export { auth, firestore, database };
