@@ -1,4 +1,5 @@
 // Import the functions you need from the SDKs you need
+
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
@@ -16,20 +17,19 @@ const firebaseApp = initializeApp({
   messagingSenderId: "1093580358710",
   appId: "1:1093580358710:web:3b9472430f9ad244730497",
   databaseURL: "https://fir-b1f12-default-rtdb.firebaseio.com/",
+
+
 });
 
 // Initialize Firebase
 const auth = getAuth(firebaseApp);
+
 const firestore = getFirestore(firebaseApp);
 const database = getDatabase(firebaseApp);
 
-//Detect auth state
-onAuthStateChanged(auth, (user) => {
-  if (user === null) {
-    console.log("No user!");
-  } else {
-    console.log("logged in!");
-  }
-});
+
+let userToken = null;
+
+
 
 export { auth, firestore, database };

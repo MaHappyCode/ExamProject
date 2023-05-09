@@ -1,33 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image, } from "react-native";
 import { Accelerometer } from "expo-sensors";
 import { getDatabase, ref, set, onValue } from "firebase/database";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const shoesIcon = require("../assets/shoes.png");
+const fireIcon = require("../assets/fire.png");
 
 const MainScreen = () => {
-  const [steps, setSteps] = useState("");
-  const [calories, setCalories] = useState("");
-
+  const [steps, setSteps] = useState(0);
+  const [calories, setCalories] = useState(0);
   const [isAccelerometerAvailable, setIsAccelerometerAvailable] =
     useState(false);
+  const [initialValuesSet, setInitialValuesSet] = useState(false);
   const navigation = useNavigation();
   const weight = 70; // replace with user's weight
+  const length = 190;
+  const user = auth.currentUser;
 
   useEffect(() => {
     let subscription;
     Accelerometer.isAvailableAsync().then((isAvailable) => {
       setIsAccelerometerAvailable(isAvailable);
-      if (isAvailable) {
+      if (isAvailable && initialValuesSet) {
         subscription = Accelerometer.addListener((accelerometerData) => {
           const acceleration = Math.sqrt(
             Math.pow(accelerometerData.x, 2) +
-              Math.pow(accelerometerData.y, 2) +
-              Math.pow(accelerometerData.z, 2)
+            Math.pow(accelerometerData.y, 2) +
+            Math.pow(accelerometerData.z, 2)
           );
-          if (acceleration > 2.1) {
+          if (acceleration > 1.5) {
             setSteps((steps) => steps + 1);
           }
         });
@@ -37,55 +41,34 @@ const MainScreen = () => {
     return () => {
       subscription && subscription.remove();
     };
-  }, []);
+  }, [initialValuesSet]);
 
   useEffect(() => {
-    const caloriesBurned = (steps * 0.05 * weight).toFixed(2); // formula to calculate calories burned
-    setCalories(caloriesBurned);
-
-    // save the data locally using AsyncStorage
-    AsyncStorage.setItem("steps", steps.toString());
-    AsyncStorage.setItem("calories", caloriesBurned.toString());
-
-    // save the data to Firebase
+    const db = getDatabase();
     const user = auth.currentUser;
     if (user) {
-      const db = getDatabase();
-      set(ref(db, `users/${user.uid}/steps`), steps);
-      try {
-        set(ref(db, `users/${user.uid}/calories`), caloriesBurned);
-      } catch (error) {
-        console.log("Failed to update calories in Firebase:", error);
-      }
-    }
-  }, [steps, weight]);
-
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (user) {
-      const db = getDatabase();
-
-      // Read the data from Firebase and update the state
       const userRef = ref(db, `users/${user.uid}`);
       onValue(userRef, (snapshot) => {
         const userData = snapshot.val();
+
         setSteps(userData?.steps || 0);
         setCalories(userData?.calories || 0);
-
-        // update the local storage
-        AsyncStorage.setItem("steps", userData.steps.toString());
-        AsyncStorage.setItem("calories", userData.calories.toString());
-      });
-    } else {
-      // retrieve the data from local storage if user is not logged in
-      AsyncStorage.getItem("steps").then((value) => {
-        setSteps(value ? parseInt(value) : steps || 0);
-      });
-      AsyncStorage.getItem("calories").then((value) => {
-        setCalories(value ? parseFloat(value) : calories || 0);
+        setInitialValuesSet(true);
       });
     }
-  }, [auth.currentUser]);
+  }, []);
+
+  useEffect(() => {
+    const caloriesBurned = ((steps * 0.05 * weight) / length).toFixed(2); // formula to calculate calories burned
+
+    // save the data to Firebase
+    const user = auth.currentUser;
+    if (user && initialValuesSet) {
+      const db = getDatabase();
+      set(ref(db, `users/${user.uid}/steps`), steps);
+      set(ref(db, `users/${user.uid}/calories`), caloriesBurned);
+    }
+  }, [steps, weight, initialValuesSet]);
 
   const handleLogout = async () => {
     try {
@@ -97,11 +80,14 @@ const MainScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text style={{ fontSize: 20, marginBottom: 10 }}>Steps: {steps}</Text>
-      <Text style={{ fontSize: 20 }}>Calories Burned: {calories}</Text>
+    <View style={styles.container}>
+      <Image source={shoesIcon} style={styles.stepsIcon}/>
+      <Text style={styles.stepsTxt}> {steps}</Text>
+      <Image source={fireIcon} style={styles.fireIcon}/>
+      <Text style={styles.caloriesCounter}> {calories}</Text>
+
       {!isAccelerometerAvailable && (
-        <Text style={{ fontSize: 16, marginTop: 20 }}>
+        <Text style={styles.accelerationAvilable}>
           Accelerometer is not available on this device
         </Text>
       )}
@@ -112,17 +98,77 @@ const MainScreen = () => {
   );
 };
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+
+  },
   logoutButton: {
     marginTop: 20,
     backgroundColor: "red",
     padding: 10,
     borderRadius: 5,
+
   },
   logoutText: {
+
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
   },
+
+  stepsTxt: {
+    height: 25,
+    width: "25%",
+    right: 87,
+    bottom: 262,
+    fontWeight: "400",
+    fontSize: 16,
+    lineHeight: 25,
+    textAlign: "auto",
+    borderWidth: 1,
+    borderRadius: 9.
+
+
+
+
+  },
+  caloriesCounter: {
+    height: 25,
+    width: "25%",
+    right: 87,
+    bottom: 250,
+    fontWeight: "400",
+    fontSize: 17,
+    textAlign: "auto",
+    lineHeight: 25,
+    borderWidth: 1,
+    borderRadius: 9,
+  },
+
+  accelerationAvilable: {
+
+  },
+  stepsIcon:{
+   height: 46,
+   width:46,
+   bottom: 235,
+   right:170,
+   
+
+  },
+  fireIcon:{
+    height:46,
+    width:35,
+    bottom:216,
+    right:170,
+    
+  
+  
+
+  },
+
 });
 
 export default MainScreen;
