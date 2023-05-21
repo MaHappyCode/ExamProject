@@ -26,10 +26,8 @@ export default function App() {
           options={{
             headerTransparent: true,
             gestureEnabled: false ,
-
             headerStyle: {
               height:100,
-              
             },
 
             headerTitleStyle: {
@@ -42,6 +40,7 @@ export default function App() {
               textShadowOffset: { width: 1, height: 1 },
               textShadowRadius: 3,
             },
+
             headerBackTitleStyle: {
               fontSize: 26,
               textAlign: "center",

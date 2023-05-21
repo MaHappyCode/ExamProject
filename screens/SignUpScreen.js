@@ -41,8 +41,6 @@ const SignUpScreen = ({ navigation }) => {
     setPickerVisible(!pickerVisible);
   };
  
-
-
   const handleGenderSelect = (gender) => {
     setSelectedGender(gender);
     setPickerVisible(false);
@@ -196,7 +194,8 @@ const SignUpScreen = ({ navigation }) => {
         placeholderTextColor={"#d7d7dcd6"}
         onChangeText={(text) => setLength(text)}
         value={length}
-        autoCapitalize={"none"}
+        keyboardType="numeric"
+     
       />
 
      
@@ -208,10 +207,8 @@ const SignUpScreen = ({ navigation }) => {
         value={weight}
         returnKeyType="next"
         keyboardType="numeric"
-        autoCapitalize={"none"}
-      
+        
       />
-
 
 
         <TouchableOpacity

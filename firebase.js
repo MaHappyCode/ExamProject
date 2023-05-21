@@ -32,4 +32,4 @@ let userToken = null;
 
 
 
-export { auth, firestore, database };
+export { auth, firestore, database, };
