@@ -35,12 +35,11 @@ const SignUpScreen = ({ navigation }) => {
   const [pickerVisible, setPickerVisible] = useState(false);
   const [weight, setWeight] = useState("");
   const [length, setLength] = useState("");
-  
 
   const togglePicker = () => {
     setPickerVisible(!pickerVisible);
   };
- 
+
   const handleGenderSelect = (gender) => {
     setSelectedGender(gender);
     setPickerVisible(false);
@@ -76,8 +75,6 @@ const SignUpScreen = ({ navigation }) => {
     }${day}`;
   };
 
- 
-
   const handleSignUp = async () => {
     // Validate form fields
     if (
@@ -88,7 +85,7 @@ const SignUpScreen = ({ navigation }) => {
       !lastName ||
       !gender ||
       !weight ||
-      ! length
+      !length
     ) {
       alert("Please fill in all fields");
       return;
@@ -139,164 +136,151 @@ const SignUpScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.SAV}>
-    
-    <ImageBackground source={backgroundImage} style={styles.imageBackground}>
-    
-      <View style={styles.header}/>
-      <View style={styles.container}>
-        
-        <TextInput
-          style={styles.input}
-          placeholder="Name"
-          placeholderTextColor={"#d7d7dcd6"}
-          onChangeText={(text) => setFirstName(text)}
-          value={firstName}
-          
-        />
+      <ImageBackground source={backgroundImage} style={styles.imageBackground}>
+        <View style={styles.header} />
+        <View style={styles.container}>
+          <TextInput
+            style={styles.input}
+            placeholder="Name"
+            placeholderTextColor={"#d7d7dcd6"}
+            onChangeText={(text) => setFirstName(text)}
+            value={firstName}
+          />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Surname"
-          placeholderTextColor={"#d7d7dcd6"}
-          onChangeText={(text) => setLastName(text)}
-          value={lastName}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor={"#d7d7dcd6"}
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          autoCapitalize={"none"}
-        />
+          <TextInput
+            style={styles.input}
+            placeholder="Surname"
+            placeholderTextColor={"#d7d7dcd6"}
+            onChangeText={(text) => setLastName(text)}
+            value={lastName}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor={"#d7d7dcd6"}
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+            autoCapitalize={"none"}
+          />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor={"#d7d7dcd6"}
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry={true}
-          autoCapitalize={"none"}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder={"Confirm Password"}
-          placeholderTextColor={"#d7d7dcd6"}
-          onChangeText={(text) => setConfirmPassword(text)}
-          value={confirmPassword}
-          secureTextEntry={true}
-          autoCapitalize={"none"}
-        /> 
-            <TextInput
-        style={styles.input}
-        placeholder={"Legnth"}
-        placeholderTextColor={"#d7d7dcd6"}
-        onChangeText={(text) => setLength(text)}
-        value={length}
-        keyboardType="numeric"
-     
-      />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor={"#d7d7dcd6"}
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+            secureTextEntry={true}
+            autoCapitalize={"none"}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder={"Confirm Password"}
+            placeholderTextColor={"#d7d7dcd6"}
+            onChangeText={(text) => setConfirmPassword(text)}
+            value={confirmPassword}
+            secureTextEntry={true}
+            autoCapitalize={"none"}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder={"Legnth"}
+            placeholderTextColor={"#d7d7dcd6"}
+            onChangeText={(text) => setLength(text)}
+            value={length}
+            keyboardType="numeric"
+          />
 
-     
-         <TextInput
-        style={styles.input}
-        placeholder={"Weight"}
-        placeholderTextColor={"#d7d7dcd6"}
-        onChangeText={(text) => setWeight(text)}
-        value={weight}
-        returnKeyType="next"
-        keyboardType="numeric"
-        
-      />
+          <TextInput
+            style={styles.input}
+            placeholder={"Weight"}
+            placeholderTextColor={"#d7d7dcd6"}
+            onChangeText={(text) => setWeight(text)}
+            value={weight}
+            returnKeyType="next"
+            keyboardType="numeric"
+          />
 
-
-        <TouchableOpacity
-          style={styles.datePickerContainer}
-          onPress={showDatePicker}
-        >
-          <Text style={styles.datePickerLabel}>Select Date of Birth:</Text>
-          <Text style={styles.datelabel}>{birthdate || "Select date"}</Text>
-        </TouchableOpacity>
-
-        <DateTimePickerModal
-          style={styles.dateP}
-          isVisible={isDatePickerVisible}
-          mode="date"
-          date={selectedDate}
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-          textColor="black"
-        />
-
-        <TouchableOpacity style={styles.selectConatiner} onPress={togglePicker}>
-          <View>
-            <Text style={{ color: "#d7d7dcd6" }}>Select gender:</Text>
-            <Text style={styles.selectG}>{gender}</Text>
-          </View>
-        </TouchableOpacity>
-        {pickerVisible && (
-          <Picker
-            style={styles.genderPicker}
-            selectedValue={gender}
-            onValueChange={(itemValue, itemIndex) =>
-              handleGenderSelect(itemValue)
-            }
+          <TouchableOpacity
+            style={styles.datePickerContainer}
+            onPress={showDatePicker}
           >
-            <Picker.Item label="Male" value="Male" color="#ffa913" />
+            <Text style={styles.datePickerLabel}>Select Date of Birth:</Text>
+            <Text style={styles.datelabel}>{birthdate || "Select date"}</Text>
+          </TouchableOpacity>
 
-            <Picker.Item label="Female" value="Female" color="#ffa913" />
-          </Picker>
-        )}
+          <DateTimePickerModal
+            style={styles.dateP}
+            isVisible={isDatePickerVisible}
+            mode="date"
+            date={selectedDate}
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+            textColor="black"
+          />
 
-        <TouchableOpacity style={styles.signUpbtn} onPress={handleSignUp}>
-          <Text style={styles.signUpTxt}>Sign Up</Text>
-        </TouchableOpacity>
-        
+          <TouchableOpacity
+            style={styles.selectConatiner}
+            onPress={togglePicker}
+          >
+            <View>
+              <Text style={{ color: "#d7d7dcd6" }}>Select gender:</Text>
+              <Text style={styles.selectG}>{gender}</Text>
+            </View>
+          </TouchableOpacity>
+          {pickerVisible && (
+            <Picker
+              style={styles.genderPicker}
+              selectedValue={gender}
+              onValueChange={(itemValue, itemIndex) =>
+                handleGenderSelect(itemValue)
+              }
+            >
+              <Picker.Item label="Male" value="Male" color="#ffa913" />
 
-      </View>
-    
-    </ImageBackground>
-   
+              <Picker.Item label="Female" value="Female" color="#ffa913" />
+            </Picker>
+          )}
+
+          <TouchableOpacity style={styles.signUpbtn} onPress={handleSignUp}>
+            <Text style={styles.signUpTxt}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  SAV:{
-    flex:1,
-    backgroundColor:"#9a650ab9",
+  SAV: {
+    flex: 1,
+    backgroundColor: "#9a650ab9",
   },
   imageBackground: {
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
-    borderBottomColor:"white",
-    borderBottomWidth:2,
-   
+    borderBottomColor: "white",
+    borderBottomWidth: 2,
   },
 
+  header: {
+    backgroundColor: "#9a650ab9",
+    borderBottomWidth: 3,
+    borderColor: "#ffffffd1",
+    minWidth: "100%",
+    height: 70,
 
-  header:{
-    backgroundColor:"#9a650ab9",
-    borderBottomWidth:3,
-    borderColor:"#ffffffd1",
-    minWidth:"100%",
-    height:70,
-    
-    top:0,
-    
+    top: 0,
   },
   container: {
-    justifyContent:"space-evenly",
-    alignItems:"center",
+    justifyContent: "space-evenly",
+    alignItems: "center",
     flex: 1,
-    
-    backgroundColor:"#2221215b",
+
+    backgroundColor: "#2221215b",
   },
 
   input: {
-    
     width: "80%",
     height: 50,
     margin: 1,
@@ -362,7 +346,6 @@ const styles = StyleSheet.create({
   },
 
   signUpbtn: {
-    
     backgroundColor: "#e29209",
     borderColor: "#ffffff",
     borderWidth: 1.4,
@@ -376,12 +359,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 25,
   },
-  accessory:{
-    width:20,
-    height:29,
-    backgroundColor:"white",
-    color:"black",
-  }
+  accessory: {
+    width: 20,
+    height: 29,
+    backgroundColor: "white",
+    color: "black",
+  },
 });
 
 export default SignUpScreen;

@@ -18,21 +18,20 @@ export default function App() {
           name="Sign In"
           component={SignInScreen}
           options={{ headerShown: false }}
-
         />
         <Stack.Screen
           name="Sign Up"
           component={SignUpScreen}
           options={{
             headerTransparent: true,
-            gestureEnabled: false ,
+            gestureEnabled: false,
             headerStyle: {
-              height:100,
+              height: 100,
             },
 
             headerTitleStyle: {
               fontSize: 45,
-              bottom:2,
+              bottom: 2,
               textAlign: "center",
               color: "white",
               fontWeight: "400",
